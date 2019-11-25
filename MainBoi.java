@@ -12,7 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class MainBoi extends Application {
 
     private BorderPane bp = new BorderPane();
     private  GridPane g1 = new GridPane();
@@ -73,23 +73,23 @@ public class Main extends Application {
         //Column2
         TableColumn namecol = new TableColumn("Name");
         namecol.setMinWidth(100);
-        namecol.setCellValueFactory(new PropertyValueFactory<Items, String>("Name"));
+        namecol.setCellValueFactory(new PropertyValueFactory<Items, String>("name"));
         //Column3
         TableColumn Qcol = new TableColumn("Quantity");
-        namecol.setMinWidth(100);
-        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Quantity"));
+        Qcol.setMinWidth(100);
+        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("quantity"));
         //Column4
         TableColumn Pcol = new TableColumn("Price");
-        namecol.setMinWidth(100);
-        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Price"));
+        Pcol.setMinWidth(100);
+        Pcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("price"));
         //Coulumn5
         TableColumn Dcol = new TableColumn("Discount");
-        namecol.setMinWidth(100);
-        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Discount"));
+        Dcol.setMinWidth(100);
+        Dcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("discount"));
         //Column6
         TableColumn Tcol = new TableColumn("Type");
-        namecol.setMinWidth(100);
-        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Type"));
+        Tcol.setMinWidth(100);
+        Tcol.setCellValueFactory(new PropertyValueFactory<Items, String>("type"));
 
 
 
@@ -103,9 +103,17 @@ public class Main extends Application {
         //Left pane with a gridpane and a add button
 
         Label ln = new Label();
-        ln.setText("Name");
+        ln.setText("ID");
         Label l2 = new Label();
-        l2.setText("Age");
+        l2.setText("Name");
+        Label l3 = new Label();
+        l3.setText("Quantity");
+        Label l4 = new Label();
+        l4.setText("Price");
+        Label l5 = new Label();
+        l5.setText("Discount");
+        Label l6 = new Label();
+        l6.setText("Type");
 
         TextField ti = new TextField();
         TextField tn = new TextField();
@@ -120,10 +128,14 @@ public class Main extends Application {
         g1.add(ti, 1, 0);
         g1.add(l2, 0, 1);
         g1.add(tn, 1, 1);
-        g1.add(tq, 1, 1);
-        g1.add(tp, 1, 1);
-        g1.add(td,1,1);
-        g1.add(tt,1,1);
+        g1.add(l3, 0, 2);
+        g1.add(tq, 1, 2);
+        g1.add(l4, 0, 3);
+        g1.add(tp, 1, 3);
+        g1.add(l5, 0, 4);
+        g1.add(td,1,4);
+        g1.add(l6, 0, 5);
+        g1.add(tt,1,5);
 
 
         g1.setPadding(new Insets(12, 12, 12, 12));
@@ -147,35 +159,14 @@ public class Main extends Application {
         EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) { //clicking add button causes the data entered in the grid pane
-                data.add(new Items(ti.getText()));//to be populated in the Table view
-                //add() method appends to list.
-                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
+                data.add(new Items(ti.getText(),tn.getText(),Integer.parseInt(tq.getText()),Integer.parseInt(tp.getText()),Integer.parseInt(td.getText()),tt.getText()));
                 ti.clear();
-
-                data.add(new Items(tn.getText()));//to be populated in the Table view
-                //add() method appends to list.
-                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
                 tn.clear();
-
-                data.add(new Items(tq.getText()));//to be populated in the Table view
-                //add() method appends to list.
-                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
                 tq.clear();
-
-                data.add(new Items(tp.getText()));//to be populated in the Table view
-                //add() method appends to list.
-                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
                 tp.clear();
-
-                data.add(new Items(td.getText()));//to be populated in the Table view
-                //add() method appends to list.
-                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
                 td.clear();
-
-                data.add(new Items(tt.getText()));//to be populated in the Table view
-                //add() method appends to list.
-                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
                 tt.clear();
+                System.out.println(data);
             }
 
         };
@@ -188,17 +179,21 @@ public class Main extends Application {
         //*************************************************************************
         //Scene2
         //modify  scene to modify the age given a name
-        Label ul2 = new Label("Enter the Name of a person to update");
+        Label ul2 = new Label("Enter the Name of a Item to update");
         ul2.setFont(new Font("Courier", 14));
-        Label ln2 = new Label("Name");
-        Label l22 = new Label("Age");
-        TextField tn2 = new TextField();
-        TextField ta2 = new TextField();
+        Label ln2 = new Label("ID");
+        Label l22 = new Label("Quantity");
+        Label l222 = new Label("Price");
+        TextField ti2 = new TextField();
+        TextField tq2 = new TextField();
+        TextField tl2 = new TextField();
         Button b12 = new Button("Update");
         g2.add(ln2, 0, 0);
-        g2.add(tn2, 1, 0);
+        g2.add(ti2, 1, 0);
         g2.add(l22, 0, 1);
-        g2.add(ta2, 1, 1);
+        g2.add(tq2, 1, 1);
+        g2.add(l222, 0, 2);
+        g2.add(tl2, 1, 2);
         Label lu= new Label();
         g2.setPadding(new Insets(12, 12, 12, 12));
         g2.setHgap(10);
@@ -211,11 +206,11 @@ public class Main extends Application {
                /* When the button was clicked, the record with the name that matches with the name  entered in the
                textfield (tn2) will be updated */
             public void handle(ActionEvent event) {
-                String sid = tn2.getText();
+                String sid = ti2.getText();
                 boolean f=false;
                 for (int i = 0; i < tbl.getItems().size(); i++) {
-                    if (((String)tbl.getItems().get(i).getName()).equals(sid)) {
-                        Items p = new Items(tn2.getText(), ta2.getText()/*Integer.parseInt(ta2.getText())*/);
+                    if (((String)tbl.getItems().get(i).getID()).equals(sid)) {
+                        Items p = new Items(ti2.getText(), tq2.getText());
                         tbl.getItems().set(i, p); //inserts the Person object at index i
                         f=true;
                     }
@@ -233,8 +228,9 @@ public class Main extends Application {
                     alert.setContentText("Entered Person's ID not found..");
                     alert.showAndWait();
                 }
-                tn2.clear();
-                ta2.clear();
+                ti2.clear();
+                tq2.clear();
+                tl2.clear();
                 s.setScene(sc1); //after modification going back to scene1
             }
         };
@@ -255,11 +251,11 @@ public class Main extends Application {
         TextField tr= new TextField();
         Button dl= new Button("Delete");
         vb4.getChildren().addAll(rl, tr, dl);
-        vb4.setPadding(new Insets(10, 10, 10, 10));
-        vb4.setSpacing(10);
+        vb4.setPadding(new Insets(12, 12, 12, 12));
+        vb4.setSpacing(12);
         sc3= new Scene(vb4, 300, 200);
 
-        EventHandler<ActionEvent> event23 = new EventHandler<ActionEvent>() {
+        /*EventHandler<ActionEvent> event23 = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String sid = tr.getText();
@@ -289,7 +285,7 @@ public class Main extends Application {
             }
         };
         dl.setOnAction(event23); //
-
+*/
         EventHandler<ActionEvent> event4 = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 s.setScene(sc3);

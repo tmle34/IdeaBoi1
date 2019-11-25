@@ -17,8 +17,7 @@ public class Items {
        type=new SimpleStringProperty(t);
     }
 
-    public Items(String text) {
-    }
+
 
     public String getID(){
         return id.get();

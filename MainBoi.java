@@ -24,11 +24,11 @@ public class MainBoi extends Application {
 
     // ObservableList is a list that enables listeners to track changes when they occur
 
-    private ObservableList<Object> data;
+    private ObservableList<Items> data;
 
 
     public void start(Stage s) {
-        TableView<Object> tbl; //table view to store person objects
+        TableView<Items> tbl; //table view to store person objects
         tbl = new TableView<>();
         Alert alerts = new Alert(Alert.AlertType.INFORMATION); //success message
         Alert alert = new Alert(Alert.AlertType.ERROR); //Error message
@@ -184,16 +184,41 @@ public class MainBoi extends Application {
         Label ln2 = new Label("ID");
         Label l22 = new Label("Quantity");
         Label l222 = new Label("Price");
+        Label ln22 = new Label("Name");
+        Label ln222 = new Label("Discount");
+        Label ln2222 = new Label("Type");
+
+
+
         TextField ti2 = new TextField();
         TextField tq2 = new TextField();
         TextField tl2 = new TextField();
+        TextField tn2 = new TextField();
+        TextField td2 = new TextField();
+        TextField tt2 = new TextField();
+
+
         Button b12 = new Button("Update");
+
+
+
+
         g2.add(ln2, 0, 0);
         g2.add(ti2, 1, 0);
         g2.add(l22, 0, 1);
         g2.add(tq2, 1, 1);
         g2.add(l222, 0, 2);
         g2.add(tl2, 1, 2);
+        g2.add(ln22,0,3);
+        g2.add(tn2,1,3);
+        g2.add(ln222,0,4);
+        g2.add(td2,1,4);
+        g2.add(ln2222,0,5);
+        g2.add(tt2,1,5);
+
+
+
+
         Label lu= new Label();
         g2.setPadding(new Insets(12, 12, 12, 12));
         g2.setHgap(10);
@@ -210,7 +235,7 @@ public class MainBoi extends Application {
                 boolean f=false;
                 for (int i = 0; i < tbl.getItems().size(); i++) {
                     if (((String)tbl.getItems().get(i).getID()).equals(sid)) {
-                        Items p = new Items(ti2.getText(), tq2.getText());
+                        Items p = new Items(ti2.getText(),tn2.getText(),Integer.parseInt(tq2.getText()),Integer.parseInt(tl2.getText()),Integer.parseInt(td2.getText()),tt2.getText());
                         tbl.getItems().set(i, p); //inserts the Person object at index i
                         f=true;
                     }
@@ -236,7 +261,7 @@ public class MainBoi extends Application {
         };
         b12.setOnAction(event22); // update button
 
-        sc2 = new Scene(vb3, 400, 200);
+        sc2 = new Scene(vb3, 400, 550);
         EventHandler<ActionEvent> event3 = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 s.setScene(sc2); //Clicking the update button causes scene 2
@@ -253,15 +278,15 @@ public class MainBoi extends Application {
         vb4.getChildren().addAll(rl, tr, dl);
         vb4.setPadding(new Insets(12, 12, 12, 12));
         vb4.setSpacing(12);
-        sc3= new Scene(vb4, 300, 200);
+        sc3= new Scene(vb4, 300, 300);
 
-        /*EventHandler<ActionEvent> event23 = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> event23 = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String sid = tr.getText();
                 boolean df =false;
                 for (int i = 0; i < tbl.getItems().size(); i++) {
-                    if (((String)tbl.getItems().get(i).getName()).equals(sid)) {
+                    if (((String)tbl.getItems().get(i).getID()).equals(sid)) {
                         tbl.getItems().remove(i); //removes the record at index i
                         df=true;
                     }
@@ -269,14 +294,14 @@ public class MainBoi extends Application {
                 if (df){
                     alerts.setTitle("Success");
                     alerts.setHeaderText(null);
-                    alerts.setContentText("Deletion Successful!");
+                    alerts.setContentText("Item Removed!");
                     alerts.showAndWait();
                 }
 
                 else {
                     alert.setTitle("Error");
                     alert.setHeaderText(null);
-                    alert.setContentText("Entered Person's ID not found..");
+                    alert.setContentText("Entered ID not found..");
                     alert.showAndWait();
                 }
                 tn2.clear();
@@ -285,7 +310,7 @@ public class MainBoi extends Application {
             }
         };
         dl.setOnAction(event23); //
-*/
+
         EventHandler<ActionEvent> event4 = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 s.setScene(sc3);

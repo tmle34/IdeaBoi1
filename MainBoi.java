@@ -21,12 +21,8 @@ public class MainBoi extends Application {
     private VBox vb1 = new VBox();
     private VBox vb2 = new VBox();
     private VBox vb3 = new VBox();
-    private VBox vb4 = new VBox();
-
-    // ObservableList is a list that enables listeners to track changes when they occur
 
     private ObservableList<Items> data;
-
 
     public void start(Stage s) {
         TableView<Items> tbl; //table view to store person objects
@@ -44,21 +40,21 @@ public class MainBoi extends Application {
         Button b3 = new Button("Update");
         Button b4 = new Button("Remove");
         Button b5 = new Button("Print");
-        fp.getChildren().addAll(b2, b3, b4,b5);  // menu bar
-
-
-        //Right Pane with a title and tableview
-
-       /* FXCollections is A utility class that consists of static methods
-        that are one-to-one copies of java.util.Collections methods */
+        CheckBox yes1 = new CheckBox("25 Off 100 Bedding and Clothing");
+        CheckBox yes2 = new CheckBox("10 off 25 Kitchen Items");
+        Label phone = new Label("Customer Phone");
+        TextField phone1 = new TextField();
+        fp.getChildren().addAll(b2, b3, b4,b5,yes1,yes2,phone,phone1);  // menu bar
 
         data = FXCollections.observableArrayList();
-
 
         s.setWidth(900);
         s.setHeight(600);
         final Label l1 = new Label("Items");
         l1.setFont(new Font("Arial", 22));
+
+        String Item[] = {"Clothing","Accessories","Electronics","Kitchen","Bedding"};
+
         //Column1
         TableColumn idcol = new TableColumn("ID");
         idcol.setMinWidth(100);
@@ -113,7 +109,7 @@ public class MainBoi extends Application {
         TextField tq = new TextField();
         TextField tp = new TextField();
         TextField td = new TextField();
-        TextField tt = new TextField();
+        ComboBox tt = new ComboBox(FXCollections.observableArrayList(Item));
 
         Button b1 = new Button("Add");
 
@@ -152,13 +148,14 @@ public class MainBoi extends Application {
         EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) { //clicking add button causes the data entered in the grid pane
-                data.add(new Items(ti.getText(),tn.getText(),Integer.parseInt(tq.getText()),Integer.parseInt(tp.getText()),Integer.parseInt(td.getText()),tt.getText()));
+                data.add(new Items(ti.getText(),tn.getText(),Integer.parseInt(tq.getText()),Integer.parseInt(tp.getText()),Integer.parseInt(td.getText()),tt.getSelectionModel().getSelectedItem().toString()));
                 ti.clear();
                 tn.clear();
                 tq.clear();
                 tp.clear();
                 td.clear();
-                tt.clear();
+                tt.setValue(null);
+
             }
 
         };
@@ -187,7 +184,7 @@ public class MainBoi extends Application {
         TextField tl2 = new TextField();
         TextField tn2 = new TextField();
         TextField td2 = new TextField();
-        TextField tt2 = new TextField();
+        ComboBox tt2 = new ComboBox(FXCollections.observableArrayList(Item));
 
 
         Button b12 = new Button("Update");
@@ -227,7 +224,7 @@ public class MainBoi extends Application {
                 boolean f=false;
                 for (int i = 0; i < tbl.getItems().size(); i++) {
                     if (((String)tbl.getItems().get(i).getID()).equals(sid)) {
-                        Items p = new Items(ti2.getText(),tn2.getText(),Integer.parseInt(tq2.getText()),Integer.parseInt(tl2.getText()),Integer.parseInt(td2.getText()),tt2.getText());
+                        Items p = new Items(ti2.getText(),tn2.getText(),Integer.parseInt(tq2.getText()),Integer.parseInt(tl2.getText()),Integer.parseInt(td2.getText()),tt2.getSelectionModel().getSelectedItem().toString());
                         tbl.getItems().set(i, p); //inserts the Person object at index i
                         f=true;
                     }
@@ -248,6 +245,9 @@ public class MainBoi extends Application {
                 ti2.clear();
                 tq2.clear();
                 tl2.clear();
+                tn2.clear();
+                tt2.setValue(null);
+                td2.clear();
                 s.setScene(sc1); //after modification going back to scene1
             }
         };
@@ -264,7 +264,7 @@ public class MainBoi extends Application {
         //Scene 3
         // delete a row in the table view
         VBox vb4= new VBox();
-        Label rl= new Label("Enter the Person's name to remove");
+        Label rl= new Label("Enter the Item's ID to remove");
         TextField tr= new TextField();
         Button dl= new Button("Delete");
         vb4.getChildren().addAll(rl, tr, dl);
@@ -322,7 +322,7 @@ public class MainBoi extends Application {
         vb5.getChildren().addAll(l1, tb2);
         vb5.setPadding(new Insets(12, 12, 12, 12));
         vb5.setSpacing(12);
-        sc4= new Scene(vb5, 600, 700);
+        sc4= new Scene(vb5, 800, 700);
         EventHandler<ActionEvent> event5 = new EventHandler<ActionEvent>(){
             @Override
 
@@ -330,21 +330,61 @@ public class MainBoi extends Application {
                 s.setScene(sc4);
                 double total = 0;
                 double discount = 0;
+                System.out.println(tb2.getItems().get(0).getType());
+                if(yes1.isSelected()) {
+                    for (int i = 0; i < tb2.getItems().size(); i++) {
+                        String sid = "Bedding";
+                        if (((String)tb2.getItems().get(i).getType()).equals(sid)) {
+                            if(tb2.getItems().get(i).getPrice()*tb2.getItems().get(i).getQuantity()>=100){
+                                discount = discount +25;
+                            }
+                            System.out.println(tb2.getItems().get(i).getType());
+                        }
+                    }
+                    for (int i = 0; i < tb2.getItems().size(); i++) {
+                        String sis = "Clothing";
+                        if (((String)tb2.getItems().get(i).getType()).equals(sis)) {
+                            if(tb2.getItems().get(i).getPrice()*tb2.getItems().get(i).getPrice()>=100){
+                                discount = discount +25;
+                            }
+                        }
+                    }
+                }
+                if(yes2.isSelected()) {
+                    for (int i = 0; i < tb2.getItems().size(); i++) {
+                        String sid = "Kitchen";
+                        if (((String)tb2.getItems().get(i).getType()).equals(sid)) {
+                            if(tb2.getItems().get(i).getPrice()*tb2.getItems().get(i).getQuantity()>=25){
+                                discount = discount +10;
+                            }
+                            System.out.println(tb2.getItems().get(i).getType());
+                        }
+                    }
+
+                }
                 for(int i=0;i<tbl.getItems().size();i++) {
                     total = tbl.getItems().get(i).getPrice()*tbl.getItems().get(i).getQuantity()+total;
                 }
                 Label l1 = new Label("Original Price: "+total);
                 for(int i=0;i<tbl.getItems().size();i++) {
                     double discounta = tbl.getItems().get(i).getDiscount();
-                    discount = (1-(discounta/100))*tbl.getItems().get(i).getPrice()*tbl.getItems().get(i).getQuantity()+discount;
+                    discount = ((discounta/100+1)-1)*tbl.getItems().get(i).getPrice()*tbl.getItems().get(i).getQuantity()+discount;
                 }
                 Label l2 = new Label("Discount Value: "+discount);
                 double subtotal = total - discount;
                 Label l3 = new Label("Subtotal: "+subtotal);
                 Label l4 = new Label("Tax: 8.25%");
-                double total1 = subtotal *.9175;
+                double total1 = subtotal *1.0825;
                 Label l5 = new Label("Total: "+total1);
-                vb5.getChildren().addAll(l1,l2,l3,l4,l5);
+                double points = 0;
+                if(total1>=1000){
+                    points = 50;
+                }
+                else{
+                    points = 0;
+                }
+                Label l6 = new Label("Customer #:"+phone1.getText()+" gets "+points+" points");
+                vb5.getChildren().addAll(l1,l2,l3,l4,l5,l6);
             }
         };
         b5.setOnAction(event5); // Print Button

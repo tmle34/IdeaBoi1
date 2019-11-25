@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,9 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
-public class MainBoi extends Application {
+public class Main extends Application {
 
     private BorderPane bp = new BorderPane();
     private  GridPane g1 = new GridPane();
@@ -26,23 +23,25 @@ public class MainBoi extends Application {
     private VBox vb3 = new VBox();
 
     // ObservableList is a list that enables listeners to track changes when they occur
-    private ObservableList<Items> data;
+
+    private ObservableList<Object> data;
+
 
     public void start(Stage s) {
-        TableView<Items> tbl; //table view to store person objects
+        TableView<Object> tbl; //table view to store person objects
         tbl = new TableView<>();
         Alert alerts = new Alert(Alert.AlertType.INFORMATION); //success message
-        Alert alerte = new Alert(Alert.AlertType.ERROR); //Error message
+        Alert alert = new Alert(Alert.AlertType.ERROR); //Error message
         Scene sc1, sc2, sc3; // scenes
         sc1 = new Scene(new Group()); // main scene
-        s.sizeToScene();  //setting stage to size acording the scene sizes
+        s.sizeToScene();  //setting stage to size according the scene sizes
 
         //top pane in the main scene
-        Button b2 = new Button("New");
-        Button b3 = new Button("Modify");
+        Button b2 = new Button("Add");
+        Button b3 = new Button("Update");
         Button b4 = new Button("Remove");
         Button b5 = new Button("Print");
-        fp.getChildren().addAll(b2, b3, b4,b5);  // menubar
+        fp.getChildren().addAll(b2, b3, b4,b5);  // menu bar
 
 
         //Right Pane with a title and tableview
@@ -50,17 +49,13 @@ public class MainBoi extends Application {
        /* FXCollections is A utility class that consists of static methods
         that are one-to-one copies of java.util.Collections methods */
 
-        dataid = FXCollections.observableArrayList();
-        dataname = FXCollections.observableArrayList();
-        dataQ = FXCollections.observableArrayList();
-        dataprice = FXCollections.observableArrayList();
-        datadiscount = FXCollections.observableArrayList();
-        datatype = FXCollections.observableArrayList();
+        data = FXCollections.observableArrayList();
 
-        s.setWidth(800);
-        s.setHeight(500);
+
+        s.setWidth(900);
+        s.setHeight(600);
         final Label l1 = new Label("Items");
-        l1.setFont(new Font("Arial", 20));
+        l1.setFont(new Font("Arial", 22));
         //Column1
         TableColumn idcol = new TableColumn("ID");
         idcol.setMinWidth(100);
@@ -84,11 +79,25 @@ public class MainBoi extends Application {
         namecol.setMinWidth(100);
         Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Quantity"));
         //Column4
+        TableColumn Pcol = new TableColumn("Price");
+        namecol.setMinWidth(100);
+        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Price"));
+        //Coulumn5
+        TableColumn Dcol = new TableColumn("Discount");
+        namecol.setMinWidth(100);
+        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Discount"));
+        //Column6
+        TableColumn Tcol = new TableColumn("Type");
+        namecol.setMinWidth(100);
+        Qcol.setCellValueFactory(new PropertyValueFactory<Items, Integer>("Type"));
+
+
+
 
         tbl.setEditable(true);
         tbl.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
         tbl.setItems(data);// table items are getting populated from observable list
-        tbl.getColumns().addAll(idcol, namecol); // adding columns to table
+        tbl.getColumns().addAll(idcol, namecol, Qcol, Pcol,Dcol,Tcol); // adding columns to table
         vb1.getChildren().addAll(l1, tbl);
 
         //Left pane with a gridpane and a add button
@@ -98,23 +107,33 @@ public class MainBoi extends Application {
         Label l2 = new Label();
         l2.setText("Age");
 
+        TextField ti = new TextField();
         TextField tn = new TextField();
-        TextField ta = new TextField();
+        TextField tq = new TextField();
+        TextField tp = new TextField();
+        TextField td = new TextField();
+        TextField tt = new TextField();
+
         Button b1 = new Button("Add");
 
         g1.add(ln, 0, 0);
-        g1.add(tn, 1, 0);
+        g1.add(ti, 1, 0);
         g1.add(l2, 0, 1);
-        g1.add(ta, 1, 1);
+        g1.add(tn, 1, 1);
+        g1.add(tq, 1, 1);
+        g1.add(tp, 1, 1);
+        g1.add(td,1,1);
+        g1.add(tt,1,1);
 
-        g1.setPadding(new Insets(10, 10, 10, 10));
+
+        g1.setPadding(new Insets(12, 12, 12, 12));
         g1.setHgap(10);
         g1.setVgap(10);
         vb2.setSpacing(5);
-        vb2.setPadding(new Insets(5, 5, 5,5));
+        vb2.setPadding(new Insets(7, 7, 7,7));
         vb2.getChildren().addAll(g1, b1);
         vb2.setVisible(false);
-        bp.setPadding(new Insets(10, 10, 10, 10));
+        bp.setPadding(new Insets(12, 12, 12, 12));
         bp.setLeft(vb2);
         bp.setRight(vb1);
         bp.setTop(fp);
@@ -127,13 +146,38 @@ public class MainBoi extends Application {
         b2.setOnAction(event1);
         EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) { //clicking add button causes the data enetred in the grid pane
-                //data.add(new Items(tn.getText(), Integer.parseInt(ta.getText()))); //to be populated in the Table view
+            public void handle(ActionEvent event) { //clicking add button causes the data entered in the grid pane
+                data.add(new Items(ti.getText()));//to be populated in the Table view
+                //add() method appends to list.
+                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
+                ti.clear();
+
+                data.add(new Items(tn.getText()));//to be populated in the Table view
                 //add() method appends to list.
                 // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
                 tn.clear();
-                ta.clear();
+
+                data.add(new Items(tq.getText()));//to be populated in the Table view
+                //add() method appends to list.
+                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
+                tq.clear();
+
+                data.add(new Items(tp.getText()));//to be populated in the Table view
+                //add() method appends to list.
+                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
+                tp.clear();
+
+                data.add(new Items(td.getText()));//to be populated in the Table view
+                //add() method appends to list.
+                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
+                td.clear();
+
+                data.add(new Items(tt.getText()));//to be populated in the Table view
+                //add() method appends to list.
+                // it is method a declared in the java.util.List interface that was inherited by ObservableList interface
+                tt.clear();
             }
+
         };
         b1.setOnAction(event2);
 
@@ -156,12 +200,12 @@ public class MainBoi extends Application {
         g2.add(l22, 0, 1);
         g2.add(ta2, 1, 1);
         Label lu= new Label();
-        g2.setPadding(new Insets(10, 10, 10, 10));
+        g2.setPadding(new Insets(12, 12, 12, 12));
         g2.setHgap(10);
         g2.setVgap(10);
         vb3.getChildren().addAll(ul2, g2, b12, lu);
         vb3.setSpacing(10);
-        vb3.setPadding(new Insets(10, 10, 10, 10));
+        vb3.setPadding(new Insets(12, 12, 12, 12));
         EventHandler<ActionEvent> event22 = new EventHandler<ActionEvent>() {
             @Override
                /* When the button was clicked, the record with the name that matches with the name  entered in the
@@ -184,10 +228,10 @@ public class MainBoi extends Application {
                 }
 
                 else {
-                    alerte.setTitle("Error");
-                    alerte.setHeaderText(null);
-                    alerte.setContentText("Enetered Person's ID not found..");
-                    alerte.showAndWait();
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Entered Person's ID not found..");
+                    alert.showAndWait();
                 }
                 tn2.clear();
                 ta2.clear();
@@ -234,10 +278,10 @@ public class MainBoi extends Application {
                 }
 
                 else {
-                    alerte.setTitle("Error");
-                    alerte.setHeaderText(null);
-                    alerte.setContentText("Entered Person's ID not found..");
-                    alerte.showAndWait();
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Entered Person's ID not found..");
+                    alert.showAndWait();
                 }
                 tn2.clear();
                 s.setScene(sc1); //after deletion going back to scene1

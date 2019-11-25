@@ -8,14 +8,18 @@ public class Items {
     private SimpleIntegerProperty price;
     private SimpleIntegerProperty discount;
     private SimpleStringProperty type;
-    public Items(String i, String n,int q,int p,int d,String t){ //Constructor
-        id=new SimpleStringProperty(n);
+    public Items(String i, String n, int q, int p, int d, String t){ //Constructor
+        id=new SimpleStringProperty(i);
         name=new SimpleStringProperty(n);
         quantity=new SimpleIntegerProperty(q);
         price=new SimpleIntegerProperty(p);
         discount=new SimpleIntegerProperty(d);
-        type=new SimpleStringProperty(t);
+       type=new SimpleStringProperty(t);
     }
+
+    public Items(String text) {
+    }
+
     public String getID(){
         return id.get();
     }//getter

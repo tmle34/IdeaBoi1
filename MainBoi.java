@@ -21,6 +21,7 @@ public class MainBoi extends Application {
     private VBox vb1 = new VBox();
     private VBox vb2 = new VBox();
     private VBox vb3 = new VBox();
+    private VBox vb4 = new VBox();
 
     // ObservableList is a list that enables listeners to track changes when they occur
 
@@ -30,9 +31,11 @@ public class MainBoi extends Application {
     public void start(Stage s) {
         TableView<Items> tbl; //table view to store person objects
         tbl = new TableView<>();
+        TableView<Items> tb2; //table view to store person objects
+        tb2 = new TableView<>();
         Alert alerts = new Alert(Alert.AlertType.INFORMATION); //success message
         Alert alert = new Alert(Alert.AlertType.ERROR); //Error message
-        Scene sc1, sc2, sc3; // scenes
+        Scene sc1, sc2, sc3,sc4; // scenes
         sc1 = new Scene(new Group()); // main scene
         s.sizeToScene();  //setting stage to size according the scene sizes
 
@@ -59,17 +62,7 @@ public class MainBoi extends Application {
         //Column1
         TableColumn idcol = new TableColumn("ID");
         idcol.setMinWidth(100);
-       /* A TableColumn must have a cell value factory set on it.
-       The cell value factory extracts the value to be displayed in each cell
-       (on each row) in the column.
-        The PropertyValueFactory factory can extract a property value (field value) from a Java object.
-        The name of the property is passed as a parameter to the PropertyValueFactory constructor
-        */
         idcol.setCellValueFactory(new PropertyValueFactory<Items, String>("id"));
-
-        /*The property name "name" will match the getter method getName() of the Person
-        objects which returns the name values and are displayed on each row.
-         */
         //Column2
         TableColumn namecol = new TableColumn("Name");
         namecol.setMinWidth(100);
@@ -166,7 +159,6 @@ public class MainBoi extends Application {
                 tp.clear();
                 td.clear();
                 tt.clear();
-                System.out.println(data);
             }
 
         };
@@ -317,6 +309,45 @@ public class MainBoi extends Application {
             }
         };
         b4.setOnAction(event4); // Remove button
+
+        //*********************************************************************************
+        //Scene 4
+        VBox vb5= new VBox();
+        Label rl1= new Label("Print Out");
+        vb5.getChildren().addAll(rl1);
+        tb2.setEditable(true);
+        tb2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
+        tb2.setItems(data);// table items are getting populated from observable list
+        tb2.getColumns().addAll(idcol, namecol, Qcol, Pcol,Dcol,Tcol);
+        vb5.getChildren().addAll(l1, tb2);
+        vb5.setPadding(new Insets(12, 12, 12, 12));
+        vb5.setSpacing(12);
+        sc4= new Scene(vb5, 600, 700);
+        EventHandler<ActionEvent> event5 = new EventHandler<ActionEvent>(){
+            @Override
+
+            public void handle(ActionEvent event){
+                s.setScene(sc4);
+                double total = 0;
+                double discount = 0;
+                for(int i=0;i<tbl.getItems().size();i++) {
+                    total = tbl.getItems().get(i).getPrice()*tbl.getItems().get(i).getQuantity()+total;
+                }
+                Label l1 = new Label("Original Price: "+total);
+                for(int i=0;i<tbl.getItems().size();i++) {
+                    double discounta = tbl.getItems().get(i).getDiscount();
+                    discount = (1-(discounta/100))*tbl.getItems().get(i).getPrice()*tbl.getItems().get(i).getQuantity()+discount;
+                }
+                Label l2 = new Label("Discount Value: "+discount);
+                double subtotal = total - discount;
+                Label l3 = new Label("Subtotal: "+subtotal);
+                Label l4 = new Label("Tax: 8.25%");
+                double total1 = subtotal *.9175;
+                Label l5 = new Label("Total: "+total1);
+                vb5.getChildren().addAll(l1,l2,l3,l4,l5);
+            }
+        };
+        b5.setOnAction(event5); // Print Button
 
     } //end of start
 
